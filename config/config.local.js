@@ -4,15 +4,31 @@ const path = require('path');
 module.exports = appInfo => {
 	const config = exports = {};
 	
+	config.staticPath = 'app/public/resources';
+	config.staticPath = {
+		root: 'app/public/resources',
+		avatars: '/images/avatars',			// app/public/resources/images/avatars
+		labBgs: '/images/labBgs',			// app/public/resources/images/labBgs
+		
+		defaultAvatar: 'default.jpg',		// app/public/resources/images/avatars/default.jpg
+		defaultLabBg: 'default.png'			// app/public/resources/images/labBgs/default.png
+	};
+		
 	// 静态文件路径
 	config.static = {
 	  prefix: '/',
-	  dir: path.join(appInfo.baseDir, 'app/public/resources')
+	  dir: path.join(appInfo.baseDir, config.staticPath.root)
 	};
 	
 	// 日志输出目录
 	config.logger = {
 	  dir: path.join(appInfo.baseDir, 'logs')
+	};
+	
+	// 设定能解析请求体的大小
+	config.bodyParser = {
+	  jsonLimit: '1mb',
+	  formLimit: '10mb'
 	};
 	
 	// 跨域配置

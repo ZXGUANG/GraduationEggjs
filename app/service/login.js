@@ -7,7 +7,7 @@ class LoginService extends Service {
 	  const { name, password } = loginInfo;
 	  let result = await this.ctx.model.Login.findAll({
 		where: {name: name, password: password},
-		// columns: 'id',
+		// attributes: ['id'],
 		limit: 1,
 		offset: 0,
 		include: {
@@ -15,21 +15,16 @@ class LoginService extends Service {
 			include:{model: this.ctx.model.Purview}
 		}
 	  });
-	  this.logger.info(result);
-	  if(result[0] === undefined){
-		  return '';
-	  }
+	  if(!result[0]){ return ''; }
 	  // 存储session
 	  let info = {
-		  id: result[0].id,
+		  id: result[0].teacher_table.id,
 		  name: result[0].name,
-		  password: result[0].password,
 		  image: result[0].image,
 		  level: result[0].teacher_table.purview_table.level
 	  };
-	  this.ctx.session.userInfo = JSON.stringify(info);
-	  return result[0];
-	  // return {level: result[0].teacher_table.purview_table.level, image: result[0].image};
+	  this.ctx.session.userInfo = info;		// JSON.stringify(info);
+	  return {level: info.level, image: info.image};
 	}
 }
 

@@ -3,16 +3,24 @@
 const Controller = require('egg').Controller;
 
 class HomeController extends Controller {
-  async index() {
-	// this.ctx.session.user = 'admin';
-	// this.ctx.session.maxAge = 3600 * 500;		// 半小时
-	// this.ctx.body = this.ctx.session;			// this.ctx.session是一个JSON对象
-    const { ctx } = this;
-    ctx.body = 'hi, egg';
-  }
-  async postIndex(){
-	this.ctx.body = this.ctx.request.body;
-  }
+	async index(){this.ctx.body = {status: 200, statusText: 'OK', msg: '', data: ''};}
+	// 登出
+	async logout(){
+		this.ctx.session = null;
+		this.ctx.body = {status: 200, statusText: 'OK', msg: '', data: ''};
+	}
+	// 从session中获取头像和登录用户名
+	async init(){
+		this.ctx.body = await this.ctx.service.home.init();
+	}
+	// 修改头像
+	async updateAvatar(){
+		if(this.ctx.request.files[0]){
+			this.ctx.body = await this.ctx.service.home.updateAvatar(this.ctx.request.files[0]);
+		}else{
+			this.ctx.body = {status: 400, statusText: 'ERROR', msg: 'no avatar', data: ''};
+		}
+	}
 }
 
 module.exports = HomeController;

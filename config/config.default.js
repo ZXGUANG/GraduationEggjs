@@ -18,12 +18,16 @@ module.exports = appInfo => {
   
   // 配置请求参数校验插件
   config.validate = {
-  	convert: false,				// 对参数可以使用convertType规则进行类型转换
+  	convert: true,				// 对参数可以使用convertType规则进行类型转换
   	// validateRoot: false		// 限制被验证值必须是一个对象
+  };
+  
+  config.multipart = {
+  	mode: 'file'  
   };
 
   // add your middleware config here
-  config.middleware = [];
+  config.middleware = ['isLogin'];
 
   // add your user config here
   const userConfig = {

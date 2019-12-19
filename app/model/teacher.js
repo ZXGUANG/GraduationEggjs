@@ -13,6 +13,7 @@ module.exports = app => {
 	
 	Teacher.associate = function(){
 		Teacher.hasOne(app.model.Purview, {foreignKey: 'teacher_id'});
+		Teacher.belongsTo(app.model.Login, {foreignKey: 'login_id'});
 	}
 	
 	return Teacher;
