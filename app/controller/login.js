@@ -23,13 +23,6 @@ class LoginController extends Controller {
 		}
 		this.ctx.body = {status: 200, statusText: 'OK', msg: '', data: result};
 	}
-	async test(){
-		let level = 2;
-		let content = '组长';
-		let teacher_id = 2;
-		let result = this.ctx.model.Purview.create({level, content, teacher_id});
-		this.ctx.body = result;
-	}
 }
 
 module.exports = LoginController;
